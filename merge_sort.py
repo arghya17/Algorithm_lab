@@ -48,6 +48,9 @@ def merge(low,high,nums):
     return 
 x=[]
 y=[]
+'''
+This is for the uniform data distribution only
+'''
 data=generator("Uniform.txt")
 for i in range(len(data)):
     start=time.time()
@@ -58,32 +61,46 @@ for i in range(len(data)):
     if not correct(data[i]):
         print("Incorrect sort")
 #print(x,y) 
-plt.plot(x,y)
+'''
+This is for the normal data distribution
+'''
+x2=[]
+y2=[]
+data=generator("Normal.txt")
+for i in range(len(data)):
+    start=time.time()
+    merge_sort(0,len(data[i])-1,data[i])
+    stop=time.time()
+    x2.append(len(data[i]))
+    y2.append((stop-start)*pow(10,6))#this is the time recording array
+    if not correct(data[i]):
+        print("Incorrect sort")
+plt.plot(x,y,alpha=0.5) 
 plt.xlabel("Lenth of array")
 plt.ylabel("Time taken in micro s")
 x1=[n for n in range(1,int(pow(2,18)+1))]
 y1=[n*log2(n) for n in range(1,int(pow(2,18)+1))]#this is the n log n array
 plt.plot(x1,y1)
-plt.legend(["Actual time taken","Expected time complexity(nlog n)"])
+plt.plot(x2,y2,alpha=0.5)
+plt.legend(["Actual time taken(Uniform Distribution)","Expected time complexity(nlog n)","Actual time taken(Normal Distribution"])
 plt.title("Time Complexity analysis of Merge sort")
 plt.show()
 
-y2=[]
-y2=[(y[i]/y1[x[i]-1]) for i in range(len(y))]
-coeff=np.median(y2)#this is the median of the constant
-print(coeff)
+y3=[]
+y3=[(y[i]/y1[x[i]-1]) for i in range(len(y))]
+coeff_uni=np.median(y3)#this is the median of the constant
+print(coeff_uni,y3)
 
-y_norm=preprocessing.normalize([np.array(y)])
-y1_norm=preprocessing.normalize([np.array(y1)])#normalisation
-print(y1_norm,y_norm)
-y3=np.array(y1)
-y3=np.multiply(y3,coeff)#generating coeff*(n logn)
-plt.plot(x,y_norm[0])
-plt.plot(x1,y1_norm[0])
-plt.plot(x,preprocessing.normalize([y2])[0])
-plt.plot(x1,preprocessing.normalize([y3])[0],'b-',alpha=0.5)
-plt.ylabel("Normalized Time taken")
+y4=[]
+y4=[(y2[i]/y1[x2[i]-1]) for i in range(len(y2))]
+coeff_norm=np.median(y4)
+print(coeff_norm,y4)
+
+
+plt.plot(x,y3,'--', color='#FFA500',alpha=0.5)
+plt.plot(x2,y4,'b-',alpha=0.5)
+plt.ylabel("Pure constant")
 plt.xlabel("Size of array")
-plt.title("Normalized display")
-plt.legend(["Normalized time","nlog n","constant","k*(nlog n)"])
+plt.title("Constant Comparison")
+plt.legend(["Constant k1(for uniform distribution)","Constant k2(for normal distribution)"])
 plt.show()
