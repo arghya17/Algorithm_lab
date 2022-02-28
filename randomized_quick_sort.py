@@ -6,8 +6,9 @@ import matplotlib.pyplot as plt
 from math import log2
 from sklearn import preprocessing
 from read_test_results import read_results
+from numpy import random
 #test_ascending is used for checking whether sorted array is ascending or not
-class quick:
+class rquick:
     def __init__(self):
         self.count=0 #instance variable
     def quick_sort(self,low,high,nums):
@@ -17,7 +18,7 @@ class quick:
         self.quick_sort(low,pi-1,nums)
         self.quick_sort(pi+1,high,nums)
     def partition(self,low,high,nums):
-        pivot_index=high
+        pivot_index=random.randint(high-low)+low
         pivot=nums[pivot_index]
         start=low
         end=high
@@ -27,6 +28,8 @@ class quick:
             while nums[end]>=pivot and end>0:
                 end=end-1
             if start<end:
+                if start==pivot_index:
+                    pivot_index=end
                 nums[start],nums[end]=nums[end],nums[start]
                 self.count=self.count+1
         nums[start],nums[pivot_index]=nums[pivot_index],nums[start]
@@ -45,7 +48,7 @@ for i in range(len(data)):
     for j in range(len(data[i])):
         x[i].append(len(data[i][j]))
 
-y,operations=read_results('quick_uniform_data.txt')
+y,operations=read_results('rquick_uniform_data.txt')
 x1=[np.mean(x[i]) for i in range(len(x))]
 y1=[np.mean(y[i]) for i in range(len(y))]#Uniform distribution data
 
@@ -62,7 +65,7 @@ for i in range(len(data)):
     for j in range(len(data[i])):
         x2[i].append(len(data[i][j]))
 
-y2,operations2=read_results('quick_normal_data.txt')
+y2,operations2=read_results('rquick_normal_data.txt')
 print(x2,'\n',y2)
 x3=[np.mean(x2[i]) for i in range(len(x2))]
 y3=[np.mean(y2[i]) for i in range(len(y2))]#for normal distribution
@@ -78,7 +81,7 @@ for i in range(len(x)):
     plt.plot(x[i],y[i],'--',color='#F3A520')
 for i in range(len(x2)):
     plt.plot(x2[i],y2[i],'-',color='#FAB400')
-plt.title('Quick sort time analysis')
+plt.title('Randomized Quick sort time analysis')
 plt.xlabel('Array size')
 plt.ylabel('Time in micro seconds')
 plt.legend(['Mean time taken(Uniform distribution)','nlogn','Mean time taken(Normal distribution)'])
@@ -91,7 +94,7 @@ print([y_log[int(x3[i]-1)] for i in range(len(y3))])
 print('\n\n',y3,"\n\n\n",coeff_norm,x3)
 plt.plot(x1,coeff_uni,'.')
 plt.plot(x3,coeff_norm,'*')
-plt.title("Coefficient in Time complexity for quick sort")
+plt.title("Coefficient in Time complexity for Randomized quick sort")
 plt.xlabel('Array size')
 plt.ylabel('Pure ratio')
 plt.legend(['Coefficient for Uniform distribution','Coefficient for normal distribution'])
@@ -106,7 +109,7 @@ plt.plot(x1,y_min1)
 plt.plot(x1,y_max1)
 plt.plot(x3,y_min2)
 plt.plot(x3,y_max2)
-plt.title('Operations analysis of quick sort')
+plt.title('Operations analysis of Randomized quick sort')
 plt.legend(['Minimum operation(Uniform)','Maximum operation(Uniform)',' Minimum operation(Normal)','Maximum operation(Normal)'])
 plt.xlabel('Array size')
 plt.ylabel('Number of operations')
@@ -116,7 +119,7 @@ y_mean1=[np.mean(y[i])/y_log[int(x1[i]-1)] for i in range(len(y))]
 y_mean2=[np.mean(y2[i])/y_log[int(x3[i])-1] for i in range(len(y))]
 plt.plot(x1,y_mean1,'o')
 plt.plot(x3,y_mean2,'.')
-plt.title("Coefficients of Quick sort")
+plt.title("Coefficients of Randomized Quick sort")
 plt.legend(['Uniform data coefficient','Normal data coefficent'])
 plt.xlabel('Array size')
 plt.ylabel('ratio')

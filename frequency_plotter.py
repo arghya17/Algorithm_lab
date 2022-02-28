@@ -16,4 +16,3 @@ def plot(file_name):
     plt.ylabel("Frequency")
     plt.show()
 
-
