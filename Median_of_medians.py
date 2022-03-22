@@ -35,9 +35,17 @@ class optimal_quick:
             end_index=j+self.divide_size
             if end_index>len(nums):
                 end_index=len(nums)
-            arr.append(self.median(nums[j:end_index]))
+            arr.append(self.median(nums[j:end_index]))#storing medians of n/5 groups
             j=end_index
-        return self.median_of_medians(arr)
+        return self.select(arr,len(arr)//2)
+    def select(self,nums,i):#i is the rank of the element to be found
+        k=self.partition(0,len(nums)-1,nums)
+        if k==i:
+            return nums[k]
+        elif i<k:
+            return self.select(nums[0:k],i)
+        elif i>k:
+            return self.select(nums[k+1:],i-k)
     def quick_sort(self,low,high,nums):
         if(low>=high):
             return
