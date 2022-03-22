@@ -95,7 +95,7 @@ operations2=np.array(operations2)
 
 
 plt.plot(x,y,alpha=0.5) 
-plt.xlabel("Lenth of array")
+plt.xlabel("Length of array")
 plt.ylabel("Time taken in micro s")
 x1=[n for n in range(1,int(pow(2,18)+1))]
 y1=[n*log2(n) for n in range(1,int(pow(2,18)+1))]#this is the n log n array
@@ -122,7 +122,7 @@ plt.plot(x,operations/x,'.',color='#FFA009',alpha=0.2)
 plt.plot(x2,operations/x2,alpha=0.7)
 plt.ylabel("Pure constant")
 plt.xlabel("Size of array")
-plt.title("Constant Comparison")
+plt.title("Constant Comparison (Merge Sort)")
 plt.legend(["Constant k1(for uniform distribution)","Constant k2(for normal distribution)", 'Uniform distribution constant(operations)','Normal distribution constant(operations)'])
 plt.show()
 print("This is operations ratio", operations/x,operations,x)
